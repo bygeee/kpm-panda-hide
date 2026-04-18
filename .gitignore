@@ -1,0 +1,32 @@
+# Compiled files
+*.o
+*.so
+*.dylib
+*.a
+
+# Executables
+*.out
+*.app
+hide
+panda-hide
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+build/
+dist/
+*.dSYM/
+
+# Temporary files
+*.log
+*.tmp

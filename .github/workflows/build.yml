@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Download ARM GNU Toolchain
+        run: |
+          curl -L -o arm-gnu-toolchain.tar.xz \
+            https://developer.arm.com/-/media/Files/downloads/gnu/15.2.rel1/binrel/arm-gnu-toolchain-15.2.rel1-x86_64-aarch64-none-elf.tar.xz
+
+      - name: Extract ARM GNU Toolchain
+        run: |
+          tar -xf arm-gnu-toolchain.tar.xz
+          echo "${GITHUB_WORKSPACE}/arm-gnu-toolchain-15.2.rel1-x86_64-aarch64-none-elf/bin" >> "${GITHUB_PATH}"
+
+      - name: Build panda-hide
+        run: make TARGET_COMPILE=aarch64-none-elf- KP_DIR="${GITHUB_WORKSPACE}/KernelPatch"
+
+      - name: Show build output
+        run: |
+          file panda-hide.kpm
+          aarch64-none-elf-readelf -h panda-hide.kpm
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: panda-hide-kpm
+          path: panda-hide.kpm
