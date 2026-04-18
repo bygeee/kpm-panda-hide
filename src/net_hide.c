@@ -90,7 +90,7 @@ void panda_net_hide_install() {
 
 void panda_net_hide_uninstall() {
     if (connect_hook_status) {
-        fp_unhook_syscall(__NR_connect, before_connect, NULL);
+        fp_unhook_syscalln(__NR_connect, before_connect, NULL);
         connect_hook_status = 0;
     }
     pr_info("panda-hide: net hide uninstalled\n");

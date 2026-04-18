@@ -9,6 +9,7 @@
 
 #include <compiler.h>
 #include <kpmodule.h>
+#include <kputils.h>
 #include <linux/printk.h>
 #include <uapi/asm-generic/unistd.h>
 #include <linux/uaccess.h>
@@ -111,11 +112,11 @@ void panda_openat_hide_install() {
 
 void panda_openat_hide_uninstall() {
     if (hook_openat_status) {
-        fp_unhook_syscall(__NR_openat, before_openat, NULL);
+        fp_unhook_syscalln(__NR_openat, before_openat, NULL);
         hook_openat_status = 0;
     }
     if (hook_faccessat_status) {
-        fp_unhook_syscall(__NR_faccessat, before_faccessat, NULL);
+        fp_unhook_syscalln(__NR_faccessat, before_faccessat, NULL);
         hook_faccessat_status = 0;
     }
     pr_info("panda-hide: openat hide uninstalled\n");
