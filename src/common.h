@@ -2,6 +2,7 @@
 #define __COMMON_H__
 
 #include <ktypes.h>
+//data
 
 struct seq_file {
 	char *buf;
